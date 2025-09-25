@@ -49,16 +49,18 @@ end
 
 all_temps = []
 
-plot(xlabel="Time (years)", ylabel="Temperature (°C)",
-     title="Snowball Climate Model Simulation")
 
 for T0 in T_initial
     label_T = string.(T0)
     temp_out = run_snowball(time, T0, dt, C, alpha_i, alpha_0, S_neo, A, B)
     push!(all_temps,temp_out)
-    plot!(0:dt:time, temp_out, label=label_T)
 end
 
+
+plot(0:dt:time, all_temps,
+     xlabel="Time (years)", ylabel="Temperature (°C)",
+     title="Snowball Climate Model Simulation",
+     label=[L"-60°C" L"-55°C" L"-50°C" L"-45°C" L"-40°C" L"-35°C" L"-30°C" L"-25°C" L"-20°C" L"-15°C" L"-10°C" L"-5°C" L"0°C" L"5°C" L"10°C" L"15°C" L"20°C" L"25°C" L"30°C"])
 
 
 
