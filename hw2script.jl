@@ -64,6 +64,84 @@ plot(0:dt:time, all_temps,
      label=[L"-60°C" L"-55°C" L"-50°C" L"-45°C" L"-40°C" L"-35°C" L"-30°C" L"-25°C" L"-20°C" L"-15°C" L"-10°C" L"-5°C" L"0°C" L"5°C" L"10°C" L"15°C" L"20°C" L"25°C" L"30°C"])
      hline!([14], color=:red, linestyle=:dash, label="T = 14 °C") ##hline added for part 3.3 to demonstrate initial conditions that converge above T=14
 
+### Problem two, originally written on Ally's computer
+
+function problem2(Q0,C0,Q1,v,C1,k,D,Q2,C2,x)
+    #calculating box 1 during mixing
+    Qmix = Q0 + Q1
+    Mmix = Q0*C0 + Q1*C1
+    Cmix = Mmix / Qmix
+   
+    #calculating ODE
+    A = Qmix/(v*1000)
+    q = D/(v*A)
+    lamda = k/v
+
+
+    ODE = (q/lamda) + ((Cmix/1000) - (q/lamda))*exp(-lamda*x)
+
+
+    return ODE
+
+
+end
+
+
+Q0 = 250000
+C0 = 0.5
+Q1 = 40000
+C1 = 9
+k = 0.36
+D = 54
+v = 10
+x = 15
+
+
+Q2= 60000
+C2= 7
+xnew = 20
+
+
+meow = problem2(Q0,C0,Q1,v,C1,k,D,Q2,C2,x)
+print(meow)
+print("                ")
+
+
+function problem2box2(Q0,C0,Q1,v,C1,k,D,Q2,C2,x,xnew)
+    #from first ODE:
+    Qmix = Q0 + Q1
+    Mmix = Q0*C0 + Q1*C1
+    Cmix = Mmix / Qmix
+    #calculating ODE
+    A = Qmix/(v*1000)
+    q = D/(v*A)
+
+
+    #calculating box 2 during mixing
+    Qtotal = Qmix + Q2
+    Mtotal = Qmix*meow + Q2*(C2/1000)
+
+
+    Ctotal = Mtotal/Qtotal
+   
+   
+    #calculating ODE
+    Anew = Qtotal/(v*1000)
+    qnew = D/(v*Anew)
+    lamda = k/v
+
+
+    ODE2 = (qnew/lamda) + ((Ctotal) - (qnew/lamda))*exp(-lamda*(xnew-15))
+
+
+    return ODE2
+
+
+end
+
+
+meowbox2 = problem2box2(Q0,C0,Q1,v,C1,k,D,Q2,C2,x,xnew)
+print(meowbox2)
 
 
 
