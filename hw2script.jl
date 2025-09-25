@@ -33,8 +33,19 @@ S= 1368
 B = -1.3
 A= 221.2
 time = 200
-steps = Int64(time*dt)
-temp_out= zeros(steps)
+
+
+function run_snowball(time, T0, dt, C, alpha_i, alpha_0, S, A, B)
+    steps = Int64(time/dt) #total ammount of steps
+    temp_out= zeros(steps+1)
+    temp_out[1]= T0
+    for i in 2:steps
+        T = do_snowball(temp_out[i-1], dt, C, alpha_i, alpha_0, S, A, B)
+        temp_out[i] = T
+    end
+    return temp_out
+end
+
 
 
 
